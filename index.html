@@ -25,8 +25,8 @@
 <main id="content" class="wrap">
   <h1>Mockadabra Privacy Policy</h1>
   <dl class="meta">
-    <div><dt>Effective date:</dt> <dd><time datetime="2026-10-12">October 12, 2026</time></dd></div>
-    <div><dt>Extension:</dt> <dd>Mockadabra, a Chrome extension for API mocking (version 0.1.0)</dd></div>
+    <div><dt>Effective date:</dt> <dd><time datetime="2026-10-15">October 15, 2026</time></dd></div>
+    <div><dt>Extension:</dt> <dd>Mockadabra, a Chrome extension for API mocking (version 0.1.1)</dd></div>
     <div><dt>Publisher:</dt> <dd>lacosta</dd></div>
     <div><dt>Contact for privacy questions and support:</dt> <dd><a href="mailto:lacosta.code@gmail.com">lacosta.code@gmail.com</a></dd></div>
   </dl>
@@ -90,7 +90,7 @@
   <ol>
     <li><strong>Configuration you create</strong> — projects, groups, rules, response definitions (status, headers, bodies, delays), environments, variables, enabled-site lists and settings.</li>
     <li><strong>Secret variables you create</strong> — stored <strong>unencrypted</strong>, including local copies needed to serve recently published configurations. They are masked in the dashboard and excluded from exports unless you opt in. Newly written diagnostic entries do not contain secret values. A rule can place a secret into a response or permitted request header only if you explicitly allow it for that rule; the receiving page or server can then read that value.</li>
-    <li><strong>Optional activity diagnostics</strong> — persistent logging is <strong>disabled by default</strong> for new installations and whenever saved preferences are missing or invalid. Existing valid logging preferences are retained, including an existing enabled preference. When enabled, the bounded local log keeps up to 500 entries by default (or the saved limit). New entries contain timestamps, severity, fixed event codes/messages and limited numeric publication metadata; they do <strong>not</strong> contain request URLs or paths, HTTP methods, project/rule identifiers, request/response bodies, header values, credentials, raw exception messages or untrusted report reasons. Unknown diagnostic codes are discarded. All activity writers, including publisher events, honor the preference. Earlier entries are not rewritten or deleted by this update: they may contain URL paths, URL-embedded credentials or diagnostic text and remain subject to the existing ring-buffer limit if logging is enabled. Version 0.1.0 has no screen to inspect, enable/disable or clear this log; ordinary new installations cannot enable it through the interface.</li>
+    <li><strong>Optional activity diagnostics</strong> — persistent logging is <strong>disabled by default</strong> for new installations and whenever saved preferences are missing or invalid. Existing valid logging preferences are retained, including an existing enabled preference. When enabled, the bounded local log keeps up to 500 entries by default (or the saved limit). New entries contain timestamps, severity, fixed event codes/messages and limited numeric publication metadata; they do <strong>not</strong> contain request URLs or paths, HTTP methods, project/rule identifiers, request/response bodies, header values, credentials, raw exception messages or untrusted report reasons. Unknown diagnostic codes are discarded. All activity writers, including publisher events, honor the preference. Earlier entries are not rewritten or deleted by this update: they may contain URL paths, URL-embedded credentials or diagnostic text and remain subject to the existing ring-buffer limit if logging is enabled. Version 0.1.1 has no screen to inspect, enable/disable or clear this log; ordinary new installations cannot enable it through the interface.</li>
     <li><strong>Per-tab choices</strong> — which project/environment (or “off”) each tab uses, in <code>chrome.storage.session</code>, which Chrome clears when the browser restarts and when the tab closes.</li>
     <li><strong>Safety copies</strong> — before an import, a copy of your own workspace is kept in the profile (the newest 10). These local restore points <strong>include secret variable values and are not encrypted</strong>. Downloads from the Safety copies screen omit secret-variable values.</li>
     <li><strong>The current tab's address</strong> — when you open the toolbar popup, the extension reads the URL of the tab you opened it on (Chrome's <code>activeTab</code> permission) to show whether Mockadabra is active there. It is not stored.</li>
@@ -114,6 +114,7 @@
     <li><strong>Export</strong> writes a plain-text JSON file to your computer (Downloads folder) only when you ask. Secret values are left out unless you tick the option to include them; if you do, the file is <strong>not encrypted</strong> and its name says so. Activity logs and per-tab choices are never exported.</li>
     <li>Excluding secret-variable values does <strong>not</strong> remove sensitive content manually placed in response bodies, header definitions, URLs or ordinary variables. Review every export before sharing it. Exported files are outside extension storage and are not removed by uninstalling Mockadabra.</li>
     <li><strong>Import</strong> reads only a file you choose, validates it completely, and writes nothing until you confirm. Importing never grants Chrome site access.</li>
+    <li><strong>Generic JSON Import:</strong> if the chosen file is not a Mockadabra backup, compatible static HTTP mock configurations in it (up to 1 MiB) can be analyzed and converted <strong>locally, on your device</strong>; the file is not uploaded or sent anywhere. After you review and confirm, conversion creates a <strong>new, disabled project</strong> with no enabled sites. It does not change your existing projects or settings, and it <strong>does not grant any website permission automatically</strong>: Mockadabra runs on a site only after you enable that site and Chrome grants access. The review screen does not display imported response bodies or header values, but converted rules — including any credentials or personal data the file contains — are stored like any other configuration (unencrypted), are included in later safety copies, and are included in project or workspace exports.</li>
     <li>Where you keep exported files (cloud drives, repositories, e-mail) and who can read them is your responsibility.</li>
   </ul>
 
@@ -155,7 +156,7 @@
 
 <footer class="site">
   <div class="wrap">
-    <p>Mockadabra privacy policy · effective <time datetime="2026-10-12">October 12, 2026</time> · Publisher: lacosta</p>
+    <p>Mockadabra privacy policy · effective <time datetime="2026-10-15">October 15, 2026</time> · Publisher: lacosta</p>
     <p>This page is static: it uses no JavaScript, cookies, analytics or external resources.</p>
   </div>
 </footer>
