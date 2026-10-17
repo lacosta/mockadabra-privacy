@@ -5,159 +5,209 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mockadabra Privacy Policy</title>
 <meta name="description" content="Privacy policy of Mockadabra, a local-first Chrome extension for API mocking: what it processes, what it stores on your device, and what it never sends anywhere.">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b0c12" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fafafc" media="(prefers-color-scheme: light)">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="preload" href="fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <a class="skip" href="#content">Skip to the policy</a>
 
 <header class="site">
-  <div class="wrap brand">
-    <img src="icon-128.png" width="40" height="40" alt="">
-    <div>
-      <div class="name">Mockadabra</div>
-      <div class="tag">Turn API chaos into usable magic.</div>
+  <div class="wrap bar">
+    <div class="brand">
+      <img src="mark-64.png" width="32" height="32" alt="">
+      <span class="name">Mockadabra</span>
+      <span class="divider" aria-hidden="true"></span>
+      <span class="context">Privacy Policy</span>
     </div>
+    <nav class="quick" aria-label="Page">
+      <a class="only-narrow" href="#toc-title">Contents</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </div>
 </header>
 
-<main id="content" class="wrap">
-  <h1>Mockadabra Privacy Policy</h1>
-  <dl class="meta">
-    <div><dt>Effective date:</dt> <dd><time datetime="2026-10-15">October 15, 2026</time></dd></div>
-    <div><dt>Extension:</dt> <dd>Mockadabra, a Chrome extension for API mocking (version 0.1.1)</dd></div>
-    <div><dt>Publisher:</dt> <dd>lacosta</dd></div>
-    <div><dt>Contact for privacy questions and support:</dt> <dd><a href="mailto:lacosta.code@gmail.com">lacosta.code@gmail.com</a></dd></div>
-  </dl>
-
-  <nav class="toc" aria-labelledby="toc-title">
-    <h2 id="toc-title">Contents</h2>
-    <ol>
-      <li><a href="#in-short">In short</a></li>
-      <li><a href="#three-kinds">Three kinds of requests</a></li>
-      <li><a href="#stored-locally">What is stored locally</a></li>
-      <li><a href="#where-data-goes">Where data goes</a></li>
-      <li><a href="#limited-use">Chrome Web Store Limited Use</a></li>
-      <li><a href="#import-export">Import and export</a></li>
-      <li><a href="#permissions">Permissions and why they exist</a></li>
-      <li><a href="#your-choices">Your choices and control</a></li>
-      <li><a href="#children">Children</a></li>
-      <li><a href="#security">Security</a></li>
-      <li><a href="#changes">Changes to this policy</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ol>
-  </nav>
-
-  <h2 id="in-short">In short</h2>
-  <div class="summary">
-    <p>Mockadabra is a local-first developer tool. Everything it stores stays in your own browser profile. The extension has <strong>no account, no server, no analytics, no advertising and no telemetry</strong>, and <strong>the extension itself sends no data to the publisher or to any third party</strong>.</p>
-  </div>
-  <p>It does, however, sit in the path of web requests that <strong>your web pages</strong> make on the sites you enable. It is important to understand what that does and does not mean:</p>
-  <ul>
-    <li>Mockadabra <strong>does not stop websites or their backend services from receiving data</strong>. Requests that it passes through, and requests of rules that modify a real response, are sent to the real server by the page, exactly as the page made them (plus only the changes a rule you wrote asks for). The server receives whatever the page and your browser normally send.</li>
-    <li>When a rule <strong>mocks</strong> a request or <strong>simulates a network failure</strong>, that request is answered or failed locally and is <strong>not</strong> sent to the real server.</li>
-  </ul>
-
-  <h2 id="three-kinds">Three kinds of requests</h2>
-
-  <h3>1. Requests made by the web pages you use (intercepted or passed through)</h3>
-  <p>On sites that you enabled and Chrome granted, Mockadabra wraps the page's <code>fetch</code> and <code>XMLHttpRequest</code>. For each request it reads the method, the URL, the headers the page's script set and, for requests with a text body, a short preview (up to 16,384 characters) in memory, to decide whether one of your rules matches. Then:</p>
-  <div class="table-scroll" role="region" aria-labelledby="cap-requests" tabindex="0">
-    <table>
-      <caption id="cap-requests">What happens to a request, and whether it reaches the real server</caption>
-      <thead><tr><th scope="col">What happens</th><th scope="col">Reaches the real server?</th></tr></thead>
-      <tbody>
-        <tr><th scope="row">No rule matches</th><td>Yes — unchanged</td></tr>
-        <tr><th scope="row">A rule <em>passes through while adding request headers</em></th><td>Yes — with the headers you configured added</td></tr>
-        <tr><th scope="row">A rule <em>modifies the real response</em></th><td>Yes — the real server answers; Mockadabra changes the response in the page according to your rule</td></tr>
-        <tr><th scope="row">A rule <em>mocks</em> the response</th><td><strong>No</strong> — answered locally</td></tr>
-        <tr><th scope="row">A rule <em>simulates a network failure</em></th><td><strong>No</strong> — failed locally</td></tr>
-        <tr><th scope="row">The engine cannot decide (for example a configuration error)</th><td>Depends on your failure policy: non-mutating requests continue unchanged; by default mutating ones (POST, PUT, PATCH, DELETE) are blocked rather than sent</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p>A mocked response is delivered to the page that made the request. Scripts of that page — including third-party scripts it loads — can read it like any other response. Mockadabra does not hide its own activity from the page.</p>
-
-  <h3>2. Requests initiated by the extension itself</h3>
-  <p><strong>None for uploading or synchronizing your data.</strong> Mockadabra has no publisher/backend requests, analytics, advertising or cloud synchronization. Its hook invokes the page's native network APIs only for that page's requests described above. All extension code, fonts and images are packaged locally; it loads no remote executable code.</p>
-
-  <h3>3. Data stored locally on your device</h3>
-  <p>Described in the next section.</p>
-
-  <h2 id="stored-locally">What is stored locally</h2>
-  <p>All of this lives in your browser profile (the extension's IndexedDB and <code>chrome.storage</code>) and is removed when you uninstall the extension:</p>
-  <ol>
-    <li><strong>Configuration you create</strong> — projects, groups, rules, response definitions (status, headers, bodies, delays), environments, variables, enabled-site lists and settings.</li>
-    <li><strong>Secret variables you create</strong> — stored <strong>unencrypted</strong>, including local copies needed to serve recently published configurations. They are masked in the dashboard and excluded from exports unless you opt in. Newly written diagnostic entries do not contain secret values. A rule can place a secret into a response or permitted request header only if you explicitly allow it for that rule; the receiving page or server can then read that value.</li>
-    <li><strong>Optional activity diagnostics</strong> — persistent logging is <strong>disabled by default</strong> for new installations and whenever saved preferences are missing or invalid. Existing valid logging preferences are retained, including an existing enabled preference. When enabled, the bounded local log keeps up to 500 entries by default (or the saved limit). New entries contain timestamps, severity, fixed event codes/messages and limited numeric publication metadata; they do <strong>not</strong> contain request URLs or paths, HTTP methods, project/rule identifiers, request/response bodies, header values, credentials, raw exception messages or untrusted report reasons. Unknown diagnostic codes are discarded. All activity writers, including publisher events, honor the preference. Earlier entries are not rewritten or deleted by this update: they may contain URL paths, URL-embedded credentials or diagnostic text and remain subject to the existing ring-buffer limit if logging is enabled. Version 0.1.1 has no screen to inspect, enable/disable or clear this log; ordinary new installations cannot enable it through the interface.</li>
-    <li><strong>Per-tab choices</strong> — which project/environment (or “off”) each tab uses, in <code>chrome.storage.session</code>, which Chrome clears when the browser restarts and when the tab closes.</li>
-    <li><strong>Safety copies</strong> — before an import, a copy of your own workspace is kept in the profile (the newest 10). These local restore points <strong>include secret variable values and are not encrypted</strong>. Downloads from the Safety copies screen omit secret-variable values.</li>
-    <li><strong>The current tab's address</strong> — when you open the toolbar popup, the extension reads the URL of the tab you opened it on (Chrome's <code>activeTab</code> permission) to show whether Mockadabra is active there. It is not stored.</li>
-  </ol>
-  <p>The extension also retains <strong>publication status</strong> needed by its diagnostics interface (configuration revisions, counts, the last publication time and a controlled failure code/message). This status exists even with activity logging disabled. New failure status does not store arbitrary exception text; earlier saved status is not scrubbed by this update.</p>
-  <p>Request details described under "Three kinds of requests" (URLs, headers, body previews, real responses being modified) are processed in memory, not automatically saved as new diagnostics. The bridge keeps up to 50 recent decisions in memory, including query/fragment-stripped URLs, for extension-only status queries. User-entered/imported configuration may itself contain URLs, bodies, headers or identifiers; those deliberately saved values are not removed by diagnostic sanitization.</p>
-  <p>Mockadabra does not read your cookies, passwords, browsing history or page content beyond what is described here, and it only runs on sites that are <strong>both</strong> enabled by you and granted by Chrome.</p>
-
-  <h2 id="where-data-goes">Where data goes</h2>
-  <ul>
-    <li><strong>Nowhere outside your device, by the extension.</strong> It does not sell, share or transfer user data, and does not use it for advertising, creditworthiness, lending or any purpose unrelated to its single purpose (mocking and modifying API responses for development and testing).</li>
-    <li>The web requests that pages make to their own servers are the page's traffic, not the extension's; see the table above.</li>
-    <li>Mockadabra cannot protect data you choose to put into a mock: do not store production credentials in responses or variables.</li>
-  </ul>
-
-  <h3 id="limited-use">Chrome Web Store Limited Use</h3>
-  <p>Mockadabra's use of user data adheres to the <strong>Limited Use restrictions</strong> of the <a href="https://developer.chrome.com/docs/webstore/program-policies/limited-use">Chrome Web Store User Data Policy</a>. Data is used only to provide and maintain its disclosed API-mocking/testing functionality, not for advertising or profiling. Mockadabra does not send it to the publisher or sell it. The publisher does not receive or inspect your local configuration automatically; if you request support, share only the specific, reviewed information you consent to have read.</p>
-
-  <h2 id="import-export">Import and export</h2>
-  <ul>
-    <li><strong>Export</strong> writes a plain-text JSON file to your computer (Downloads folder) only when you ask. Secret values are left out unless you tick the option to include them; if you do, the file is <strong>not encrypted</strong> and its name says so. Activity logs and per-tab choices are never exported.</li>
-    <li>Excluding secret-variable values does <strong>not</strong> remove sensitive content manually placed in response bodies, header definitions, URLs or ordinary variables. Review every export before sharing it. Exported files are outside extension storage and are not removed by uninstalling Mockadabra.</li>
-    <li><strong>Import</strong> reads only a file you choose, validates it completely, and writes nothing until you confirm. Importing never grants Chrome site access.</li>
-    <li><strong>Generic JSON Import:</strong> if the chosen file is not a Mockadabra backup, compatible static HTTP mock configurations in it (up to 1 MiB) can be analyzed and converted <strong>locally, on your device</strong>; the file is not uploaded or sent anywhere. After you review and confirm, conversion creates a <strong>new, disabled project</strong> with no enabled sites. It does not change your existing projects or settings, and it <strong>does not grant any website permission automatically</strong>: Mockadabra runs on a site only after you enable that site and Chrome grants access. The review screen does not display imported response bodies or header values, but converted rules — including any credentials or personal data the file contains — are stored like any other configuration (unencrypted), are included in later safety copies, and are included in project or workspace exports.</li>
-    <li>Where you keep exported files (cloud drives, repositories, e-mail) and who can read them is your responsibility.</li>
-  </ul>
-
-  <h2 id="permissions">Permissions and why they exist</h2>
-  <div class="table-scroll" role="region" aria-labelledby="cap-perms" tabindex="0">
-    <table>
-      <caption id="cap-perms">Browser permissions requested by the extension</caption>
-      <thead><tr><th scope="col">Permission</th><th scope="col">Why</th></tr></thead>
-      <tbody>
-        <tr><th scope="row"><code>storage</code>, <code>unlimitedStorage</code></th><td>Keep your projects, rules, settings and safety copies locally; mock bodies and backups can be large</td></tr>
-        <tr><th scope="row"><code>scripting</code></th><td>Register Mockadabra's packaged page scripts on the sites you enabled and granted</td></tr>
-        <tr><th scope="row"><code>activeTab</code></th><td>Let the popup read the address of the current tab to show its status</td></tr>
-        <tr><th scope="row">Optional access to <code>http://*/*</code> and <code>https://*/*</code></th><td><strong>Not granted at install.</strong> Chrome asks you, per site and from a click; you can revoke each site at any time in <code>chrome://extensions</code> → Mockadabra → Site access</td></tr>
-      </tbody>
-    </table>
+<main id="content">
+  <div class="intro">
+    <div class="wrap">
+      <h1><span class="eyebrow">Mockadabra</span> Privacy Policy</h1>
+      <dl class="meta">
+        <div><dt>Effective date:</dt> <dd><time datetime="2026-10-15">October 15, 2026</time></dd></div>
+        <div><dt>Extension:</dt> <dd>Mockadabra, a Chrome extension for API mocking (version 0.1.1)</dd></div>
+        <div><dt>Publisher:</dt> <dd>lacosta</dd></div>
+        <div><dt>Contact for privacy questions and support:</dt> <dd><a href="mailto:lacosta.code@gmail.com">lacosta.code@gmail.com</a></dd></div>
+      </dl>
+    </div>
   </div>
 
-  <h2 id="your-choices">Your choices and control</h2>
-  <ul>
-    <li><strong>Delete part of your data:</strong> delete rules, groups, environments, variables or whole projects in the dashboard. Importing a workspace file in <em>Replace</em> mode replaces everything.</li>
-    <li><strong>Stop it running on a site:</strong> switch mocking off for a tab in the popup, remove the site from the enabled sites, or revoke the site's access in Chrome.</li>
-    <li><strong>Delete all data, including the activity log:</strong> uninstall the extension (<code>chrome://extensions</code> → Remove); Chrome deletes the extension's storage with it.</li>
-    <li><strong>Keep a copy:</strong> Backup → Export workspace.</li>
-  </ul>
+  <div class="wrap layout">
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 id="toc-title">Contents</h2>
+      <ol>
+        <li><a href="#in-short">In short</a></li>
+        <li><a href="#three-kinds">Three kinds of requests</a></li>
+        <li><a href="#stored-locally">What is stored locally</a></li>
+        <li><a href="#where-data-goes">Where data goes</a></li>
+        <li><a href="#limited-use">Chrome Web Store Limited Use</a></li>
+        <li><a href="#import-export">Import and export</a></li>
+        <li><a href="#permissions">Permissions and why they exist</a></li>
+        <li><a href="#your-choices">Your choices and control</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#changes">Changes to this policy</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </nav>
 
-  <h2 id="children">Children</h2>
-  <p>Mockadabra is a software-development tool and is not directed at children.</p>
+    <article class="policy">
+      <section aria-labelledby="in-short">
+        <h2 id="in-short">In short</h2>
+        <div class="summary">
+          <p>Mockadabra is a local-first developer tool. Everything it stores stays in your own browser profile. The extension has <strong>no account, no server, no analytics, no advertising and no telemetry</strong>, and <strong>the extension itself sends no data to the publisher or to any third party</strong>.</p>
+        </div>
+        <p>It does, however, sit in the path of web requests that <strong>your web pages</strong> make on the sites you enable. It is important to understand what that does and does not mean:</p>
+        <ul>
+          <li>Mockadabra <strong>does not stop websites or their backend services from receiving data</strong>. Requests that it passes through, and requests of rules that modify a real response, are sent to the real server by the page, exactly as the page made them (plus only the changes a rule you wrote asks for). The server receives whatever the page and your browser normally send.</li>
+          <li>When a rule <strong>mocks</strong> a request or <strong>simulates a network failure</strong>, that request is answered or failed locally and is <strong>not</strong> sent to the real server.</li>
+        </ul>
+      </section>
 
-  <h2 id="security">Security</h2>
-  <p>Mockadabra does not encrypt its locally stored configuration, secret values, safety copies or exported JSON files. Browser-origin isolation and your operating-system account provide access boundaries, not application-level encryption. Do not store production credentials or sensitive real-user data. Please report security issues privately to <a href="mailto:lacosta.code@gmail.com">lacosta.code@gmail.com</a>.</p>
-  <p>Diagnostic privacy hardening does not encrypt stored configuration or secrets. Whether this plaintext authentication-storage design satisfies Chrome Web Store encryption-at-rest requirements remains unresolved; this policy is not a guarantee of store-policy compliance or approval.</p>
+      <section aria-labelledby="three-kinds">
+        <h2 id="three-kinds">Three kinds of requests</h2>
 
-  <h2 id="changes">Changes to this policy</h2>
-  <p>If a future version changes what the extension processes or transmits, this policy will be updated and the change described in the extension's release notes before that version is published.</p>
+        <h3>1. Requests made by the web pages you use (intercepted or passed through)</h3>
+        <p>On sites that you enabled and Chrome granted, Mockadabra wraps the page's <code>fetch</code> and <code>XMLHttpRequest</code>. For each request it reads the method, the URL, the headers the page's script set and, for requests with a text body, a short preview (up to 16,384 characters) in memory, to decide whether one of your rules matches. Then:</p>
+        <div class="table-scroll" role="region" aria-labelledby="cap-requests" tabindex="0">
+          <table>
+            <caption id="cap-requests">What happens to a request, and whether it reaches the real server</caption>
+            <thead><tr><th scope="col">What happens</th><th scope="col">Reaches the real server?</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">No rule matches</th><td>Yes — unchanged</td></tr>
+              <tr><th scope="row">A rule <em>passes through while adding request headers</em></th><td>Yes — with the headers you configured added</td></tr>
+              <tr><th scope="row">A rule <em>modifies the real response</em></th><td>Yes — the real server answers; Mockadabra changes the response in the page according to your rule</td></tr>
+              <tr><th scope="row">A rule <em>mocks</em> the response</th><td><strong>No</strong> — answered locally</td></tr>
+              <tr><th scope="row">A rule <em>simulates a network failure</em></th><td><strong>No</strong> — failed locally</td></tr>
+              <tr><th scope="row">The engine cannot decide (for example a configuration error)</th><td>Depends on your failure policy: non-mutating requests continue unchanged; by default mutating ones (POST, PUT, PATCH, DELETE) are blocked rather than sent</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>A mocked response is delivered to the page that made the request. Scripts of that page — including third-party scripts it loads — can read it like any other response. Mockadabra does not hide its own activity from the page.</p>
 
-  <h2 id="contact">Contact</h2>
-  <p>lacosta — <a href="mailto:lacosta.code@gmail.com">lacosta.code@gmail.com</a></p>
+        <h3>2. Requests initiated by the extension itself</h3>
+        <p><strong>None for uploading or synchronizing your data.</strong> Mockadabra has no publisher/backend requests, analytics, advertising or cloud synchronization. Its hook invokes the page's native network APIs only for that page's requests described above. All extension code, fonts and images are packaged locally; it loads no remote executable code.</p>
+
+        <h3>3. Data stored locally on your device</h3>
+        <p>Described in the next section.</p>
+      </section>
+
+      <section aria-labelledby="stored-locally">
+        <h2 id="stored-locally">What is stored locally</h2>
+        <p>All of this lives in your browser profile (the extension's IndexedDB and <code>chrome.storage</code>) and is removed when you uninstall the extension:</p>
+        <ol class="stored">
+          <li><strong>Configuration you create</strong> — projects, groups, rules, response definitions (status, headers, bodies, delays), environments, variables, enabled-site lists and settings.</li>
+          <li><strong>Secret variables you create</strong> — stored <strong>unencrypted</strong>, including local copies needed to serve recently published configurations. They are masked in the dashboard and excluded from exports unless you opt in. Newly written diagnostic entries do not contain secret values. A rule can place a secret into a response or permitted request header only if you explicitly allow it for that rule; the receiving page or server can then read that value.</li>
+          <li><strong>Optional activity diagnostics</strong> — persistent logging is <strong>disabled by default</strong> for new installations and whenever saved preferences are missing or invalid. Existing valid logging preferences are retained, including an existing enabled preference. When enabled, the bounded local log keeps up to 500 entries by default (or the saved limit). New entries contain timestamps, severity, fixed event codes/messages and limited numeric publication metadata; they do <strong>not</strong> contain request URLs or paths, HTTP methods, project/rule identifiers, request/response bodies, header values, credentials, raw exception messages or untrusted report reasons. Unknown diagnostic codes are discarded. All activity writers, including publisher events, honor the preference. Earlier entries are not rewritten or deleted by this update: they may contain URL paths, URL-embedded credentials or diagnostic text and remain subject to the existing ring-buffer limit if logging is enabled. Version 0.1.1 has no screen to inspect, enable/disable or clear this log; ordinary new installations cannot enable it through the interface.</li>
+          <li><strong>Per-tab choices</strong> — which project/environment (or “off”) each tab uses, in <code>chrome.storage.session</code>, which Chrome clears when the browser restarts and when the tab closes.</li>
+          <li><strong>Safety copies</strong> — before an import, a copy of your own workspace is kept in the profile (the newest 10). These local restore points <strong>include secret variable values and are not encrypted</strong>. Downloads from the Safety copies screen omit secret-variable values.</li>
+          <li><strong>The current tab's address</strong> — when you open the toolbar popup, the extension reads the URL of the tab you opened it on (Chrome's <code>activeTab</code> permission) to show whether Mockadabra is active there. It is not stored.</li>
+        </ol>
+        <p>The extension also retains <strong>publication status</strong> needed by its diagnostics interface (configuration revisions, counts, the last publication time and a controlled failure code/message). This status exists even with activity logging disabled. New failure status does not store arbitrary exception text; earlier saved status is not scrubbed by this update.</p>
+        <p>Request details described under "Three kinds of requests" (URLs, headers, body previews, real responses being modified) are processed in memory, not automatically saved as new diagnostics. The bridge keeps up to 50 recent decisions in memory, including query/fragment-stripped URLs, for extension-only status queries. User-entered/imported configuration may itself contain URLs, bodies, headers or identifiers; those deliberately saved values are not removed by diagnostic sanitization.</p>
+        <p>Mockadabra does not read your cookies, passwords, browsing history or page content beyond what is described here, and it only runs on sites that are <strong>both</strong> enabled by you and granted by Chrome.</p>
+      </section>
+
+      <section class="has-sub" aria-labelledby="where-data-goes">
+        <div class="sec-main">
+          <h2 id="where-data-goes">Where data goes</h2>
+          <ul>
+            <li><strong>Nowhere outside your device, by the extension.</strong> It does not sell, share or transfer user data, and does not use it for advertising, creditworthiness, lending or any purpose unrelated to its single purpose (mocking and modifying API responses for development and testing).</li>
+            <li>The web requests that pages make to their own servers are the page's traffic, not the extension's; see the table above.</li>
+            <li>Mockadabra cannot protect data you choose to put into a mock: do not store production credentials in responses or variables.</li>
+          </ul>
+        </div>
+
+        <section aria-labelledby="limited-use">
+          <h3 id="limited-use">Chrome Web Store Limited Use</h3>
+          <p>Mockadabra's use of user data adheres to the <strong>Limited Use restrictions</strong> of the <a href="https://developer.chrome.com/docs/webstore/program-policies/limited-use">Chrome Web Store User Data Policy</a>. Data is used only to provide and maintain its disclosed API-mocking/testing functionality, not for advertising or profiling. Mockadabra does not send it to the publisher or sell it. The publisher does not receive or inspect your local configuration automatically; if you request support, share only the specific, reviewed information you consent to have read.</p>
+        </section>
+      </section>
+
+      <section aria-labelledby="import-export">
+        <h2 id="import-export">Import and export</h2>
+        <ul>
+          <li><strong>Export</strong> writes a plain-text JSON file to your computer (Downloads folder) only when you ask. Secret values are left out unless you tick the option to include them; if you do, the file is <strong>not encrypted</strong> and its name says so. Activity logs and per-tab choices are never exported.</li>
+          <li>Excluding secret-variable values does <strong>not</strong> remove sensitive content manually placed in response bodies, header definitions, URLs or ordinary variables. Review every export before sharing it. Exported files are outside extension storage and are not removed by uninstalling Mockadabra.</li>
+          <li><strong>Import</strong> reads only a file you choose, validates it completely, and writes nothing until you confirm. Importing never grants Chrome site access.</li>
+          <li><strong>Generic JSON Import:</strong> if the chosen file is not a Mockadabra backup, compatible static HTTP mock configurations in it (up to 1 MiB) can be analyzed and converted <strong>locally, on your device</strong>; the file is not uploaded or sent anywhere. After you review and confirm, conversion creates a <strong>new, disabled project</strong> with no enabled sites. It does not change your existing projects or settings, and it <strong>does not grant any website permission automatically</strong>: Mockadabra runs on a site only after you enable that site and Chrome grants access. The review screen does not display imported response bodies or header values, but converted rules — including any credentials or personal data the file contains — are stored like any other configuration (unencrypted), are included in later safety copies, and are included in project or workspace exports.</li>
+          <li>Where you keep exported files (cloud drives, repositories, e-mail) and who can read them is your responsibility.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="permissions">
+        <h2 id="permissions">Permissions and why they exist</h2>
+        <div class="table-scroll" role="region" aria-labelledby="cap-perms" tabindex="0">
+          <table>
+            <caption id="cap-perms">Browser permissions requested by the extension</caption>
+            <thead><tr><th scope="col">Permission</th><th scope="col">Why</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><code>storage</code>, <code>unlimitedStorage</code></th><td>Keep your projects, rules, settings and safety copies locally; mock bodies and backups can be large</td></tr>
+              <tr><th scope="row"><code>scripting</code></th><td>Register Mockadabra's packaged page scripts on the sites you enabled and granted</td></tr>
+              <tr><th scope="row"><code>activeTab</code></th><td>Let the popup read the address of the current tab to show its status</td></tr>
+              <tr><th scope="row">Optional access to <code>http://*/*</code> and <code>https://*/*</code></th><td><strong>Not granted at install.</strong> Chrome asks you, per site and from a click; you can revoke each site at any time in <code>chrome://extensions</code> → Mockadabra → Site access</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="your-choices">
+        <h2 id="your-choices">Your choices and control</h2>
+        <ul>
+          <li><strong>Delete part of your data:</strong> delete rules, groups, environments, variables or whole projects in the dashboard. Importing a workspace file in <em>Replace</em> mode replaces everything.</li>
+          <li><strong>Stop it running on a site:</strong> switch mocking off for a tab in the popup, remove the site from the enabled sites, or revoke the site's access in Chrome.</li>
+          <li><strong>Delete all data, including the activity log:</strong> uninstall the extension (<code>chrome://extensions</code> → Remove); Chrome deletes the extension's storage with it.</li>
+          <li><strong>Keep a copy:</strong> Backup → Export workspace.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="children">
+        <h2 id="children">Children</h2>
+        <p>Mockadabra is a software-development tool and is not directed at children.</p>
+      </section>
+
+      <section aria-labelledby="security">
+        <h2 id="security">Security</h2>
+        <p>Mockadabra does not encrypt its locally stored configuration, secret values, safety copies or exported JSON files. Browser-origin isolation and your operating-system account provide access boundaries, not application-level encryption. Do not store production credentials or sensitive real-user data. Please report security issues privately to <a href="mailto:lacosta.code@gmail.com">lacosta.code@gmail.com</a>.</p>
+        <p>Diagnostic privacy hardening does not encrypt stored configuration or secrets. Whether this plaintext authentication-storage design satisfies Chrome Web Store encryption-at-rest requirements remains unresolved; this policy is not a guarantee of store-policy compliance or approval.</p>
+      </section>
+
+      <section aria-labelledby="changes">
+        <h2 id="changes">Changes to this policy</h2>
+        <p>If a future version changes what the extension processes or transmits, this policy will be updated and the change described in the extension's release notes before that version is published.</p>
+      </section>
+
+      <section aria-labelledby="contact">
+        <h2 id="contact">Contact</h2>
+        <p>lacosta — <a href="mailto:lacosta.code@gmail.com">lacosta.code@gmail.com</a></p>
+      </section>
+    </article>
+  </div>
 </main>
 
 <footer class="site">
-  <div class="wrap">
-    <p>Mockadabra privacy policy · effective <time datetime="2026-10-15">October 15, 2026</time> · Publisher: lacosta</p>
-    <p>This page is static: it uses no JavaScript, cookies, analytics or external resources.</p>
+  <div class="wrap foot">
+    <div class="brand">
+      <img src="mark-64.png" width="28" height="28" alt="">
+      <span class="name">Mockadabra</span>
+      <span class="tag">Turn API chaos into usable magic.</span>
+    </div>
+    <div class="foot-text">
+      <p>Mockadabra privacy policy · effective <time datetime="2026-10-15">October 15, 2026</time> · Publisher: lacosta</p>
+      <p>This page is static: it uses no JavaScript, cookies, analytics or external resources.</p>
+    </div>
   </div>
 </footer>
 </body>
